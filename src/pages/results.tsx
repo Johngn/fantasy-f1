@@ -18,10 +18,38 @@ const Results: FunctionComponent = () => {
       </Head>
 
       <main>
+        <h1>
+          Results of the last race - {data.MRData.RaceTable.Races[0].raceName}{' '}
+          {data.MRData.RaceTable.Races[0].season}
+        </h1>
+        <div
+          style={{
+            display: 'flex',
+            width: '300px',
+            justifyContent: 'space-between',
+          }}
+        >
+          <h2>Position</h2>
+          <h2>Driver</h2>
+          <h2>Points</h2>
+        </div>
         {isLoading && 'Loading...'}
         {isSuccess &&
           data.MRData.RaceTable.Races[0].Results.map(
-            ({ Driver, number }: any) => <p key={number}>{Driver.code}</p>
+            ({ Driver, number, position, points }: any) => (
+              <div
+                key={number}
+                style={{
+                  display: 'flex',
+                  width: '300px',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <h2>{position}</h2>
+                <h2>{Driver.code}</h2>
+                <h2>{points}</h2>
+              </div>
+            )
           )}
         {isError && 'Error!'}
       </main>
