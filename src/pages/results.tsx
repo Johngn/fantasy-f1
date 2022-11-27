@@ -1,13 +1,13 @@
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 import Head from 'next/head';
 import { useQuery } from 'react-query';
 
-const Home: FunctionComponent = () => {
+const Results: FunctionComponent = () => {
   const { isLoading, isError, isSuccess, data } = useQuery(['drivers'], () =>
-    fetch('http://localhost:3000/api/drivers').then(res => res.json())
+    fetch('http://ergast.com/api/f1/2022/last/results.json').then(res =>
+      res.json()
+    )
   );
-  console.log(data);
 
   return (
     <div>
@@ -18,12 +18,15 @@ const Home: FunctionComponent = () => {
       </Head>
 
       <main>
-        {/* {data.map(({ firstname }: any) => (
-          <p>{firstname}</p>
-        ))} */}
+        {isLoading && 'Loading...'}
+        {isSuccess &&
+          data.MRData.RaceTable.Races[0].Results.map(
+            ({ Driver, number }: any) => <p key={number}>{Driver.code}</p>
+          )}
+        {isError && 'Error!'}
       </main>
     </div>
   );
 };
 
-export default Home;
+export default Results;
