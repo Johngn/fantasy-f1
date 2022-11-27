@@ -1,7 +1,14 @@
+import { GetServerSideProps } from 'next';
+import { FunctionComponent } from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
+import { useQuery } from 'react-query';
 
-export default function Home() {
+const Home: FunctionComponent = () => {
+  const { isLoading, isError, isSuccess, data } = useQuery(['drivers'], () =>
+    fetch('http://localhost:3000/api/drivers').then(res => res.json())
+  );
+  console.log(data);
+
   return (
     <div>
       <Head>
@@ -10,9 +17,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <h1>Fantasy F1</h1>
-      </main>
+      <main>{/* <h1>Fantasy F1</h1> */}</main>
     </div>
   );
-}
+};
+
+export default Home;
